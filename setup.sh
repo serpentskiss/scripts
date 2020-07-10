@@ -62,7 +62,7 @@ chmod a+rx /usr/local/bin/youtube-dl
 # ============================================================================= #
 addgroup sftpusers
 useradd -g sftpusers -s /sbin/nologin -d /var/www/sites -p ${WEBUSERPWD} webuser
-usermod -aG sftpusers webuser
+usermod -aG sudo webuser
 chown root: /var/www
 chown webuser:sftpusers /var/www/sites
 sed -i 's/Subsystem sftp/# Subsystem sftp/' /etc/ssh/sshd_config
