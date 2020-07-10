@@ -14,6 +14,8 @@
 #                 Fixed usermod error                                           #
 #                 Replaced -qq option with -y on apt-get as it didn't stop      #
 #                 output atm                                                    #
+#                 Fixed base homeDir creation                                   #
+#                 PHP version update to 7.4                                     #
 #                                                                               #
 #   v1.01.002   : 09 Jul 2020                                                   #
 #                 Added PHP-MySQL extension                                     #
@@ -73,7 +75,7 @@ apt-get -y --with-new-pkgs upgrade 2>&1
 # Install all our binaries                                                      #
 # ============================================================================= #
 apt-get -y install apache2 2>&1
-apt-get -y install php7.3 php7.3-cli php7.3-gd php7.3-imap php7.3-mbstring php7.3-mysql php7.3-xml php-pear php-xdebug 2>&1
+apt-get -y install php7.4 php7.4-cli php7.4-gd php7.4-imap php7.4-mbstring php7.4-mysql php7.4-xml php-pear php-xdebug 2>&1
 apt-get install -y mariadb-server mariadb-client 2>&1
 apt-get install -y ffmpeg zip unzip jpegoptim optipng 2>&1
 curl --silent -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl 2>&1
@@ -86,6 +88,7 @@ addgroup sftpusers
 useradd -g sftpusers -s /sbin/nologin -d /var/www/sites -p ${WEBUSERPWD} webuser
 usermod -aG sudo webuser
 chown root: /var/www
+mkdir -p /var/www/sites
 chown webuser:sftpusers /var/www/sites
 sed -i 's/Subsystem sftp/# Subsystem sftp/' /etc/ssh/sshd_config
 
