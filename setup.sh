@@ -3,12 +3,17 @@
 # ############################################################################# #
 # UBUNTU LAMP SERVER INSTALLATION SCRIPT                                        #
 # ############################################################################# #
-# Version       : 1.01.002                                                      #
+# Version       : 1.01.003                                                      #
 # Released      : 07 Jul 2020                                                   #
-# Last Updated  : 09 Jul 2020                                                   #
+# Last Updated  : 10 Jul 2020                                                   #
 # Author        : Jon Thompson <jon@jonthompson.co.uk>                          #
 # ############################################################################# #
 # UPDATE HISTORY                                                                #
+#                                                                               #
+#   v1.01.003   : 10 Jul 2020                                                   #
+#                 Fixed usermod error                                           #
+#                 Replaced -qq option with -y on apt-get as it didn't stop      #
+#                 output atm                                                    #
 #                                                                               #
 #   v1.01.002   : 09 Jul 2020                                                   #
 #                 Added PHP-MySQL extension                                     #
@@ -41,19 +46,36 @@ MYSQLROOTPWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 WEBUSERPWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 IPADDRESS=$(ip addr show eth0 | grep -oE 'inet [0-9.]+' | cut -d ' ' -f 2)
 
+
+# ============================================================================= #
+# Save login information                                                        #
+# ============================================================================= #
+cat << _EOF_ >> ~/LOGIN
+
++-------------------------------------------------------------------------------+
+| SERVER AND LOGIN INFORMATION                                                  |
++-------------------------------------------------------------------------------+
+
+IP ADDRESS    : ${IPADDRESS}
+TEST SITE     : http://${IPADDRESS}
+FTP USER      : webuser:${WEBUSERPWD}
+MYSQL ROOT    : root:${MYSQLROOTPWD}
+
+_EOF_
+
 # ============================================================================= #
 # Run an update first
 # ============================================================================= #
-apt-get -qq update 2>&1
-apt-get -qq --with-new-pkgs upgrade 2>&1
+apt-get -y update 2>&1
+apt-get -y --with-new-pkgs upgrade 2>&1
 
 # ============================================================================= #
 # Install all our binaries                                                      #
 # ============================================================================= #
-apt-get -qq install apache2 2>&1
-apt-get -qq install php7.3 php7.3-cli php7.3-gd php7.3-imap php7.3-mbstring php7.3-mysql php7.3-xml php-pear php-xdebug 2>&1
-apt-get install -qq mariadb-server mariadb-client 2>&1
-apt-get install -qq ffmpeg zip unzip jpegoptim optipng 2>&1
+apt-get -y install apache2 2>&1
+apt-get -y install php7.3 php7.3-cli php7.3-gd php7.3-imap php7.3-mbstring php7.3-mysql php7.3-xml php-pear php-xdebug 2>&1
+apt-get install -y mariadb-server mariadb-client 2>&1
+apt-get install -y ffmpeg zip unzip jpegoptim optipng 2>&1
 curl --silent -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl 2>&1
 chmod a+rx /usr/local/bin/youtube-dl
 
