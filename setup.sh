@@ -16,6 +16,7 @@
 #                 output atm                                                    #
 #                 Fixed base homeDir creation                                   #
 #                 PHP version update to 7.4                                     #
+#                 Fixed erroneous backslahes                                    #
 #                                                                               #
 #   v1.01.002   : 09 Jul 2020                                                   #
 #                 Added PHP-MySQL extension                                     #
@@ -116,8 +117,8 @@ cat << _EOF_ > /etc/apache2/sites-available/000-default.conf
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
         VirtualDocumentRoot /var/www/sites/%0/web
-        ErrorLog \$\{APACHE_LOG_DIR\}/error.log
-        CustomLog \$\{APACHE_LOG_DIR\}/access.log combined
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 
 <Directory /var/www/sites>
