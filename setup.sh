@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ############################################################################# #
-# UBUNTU LAMP SERVER INSTALLATION SCRIPT                                        #
+# UBUNTU SERVER 20 LTS LAMP SERVER INSTALLATION SCRIPT                          #
 # ############################################################################# #
 # Version       : 1.01.003                                                      #
 # Released      : 07 Jul 2020                                                   #
@@ -11,13 +11,12 @@
 # UPDATE HISTORY                                                                #
 #                                                                               #
 #   v1.01.003   : 10 Jul 2020                                                   #
-#                 Fixed usermod error                                           #
-#                 Replaced -qq option with -y on apt-get as it didn't stop      #
-#                 output atm                                                    #
-#                 Fixed base homeDir creation                                   #
-#                 PHP version update to 7.4                                     #
-#                 Fixed erroneous backslashes                                   #
-#                 Password-hashing for new user creation                        #
+#                 Updated `apt-get -qq` to `apt-get -y`                         #
+#                 Updated PHP version to 7.4                                    #
+#                 Fixed usermod syntax error                                    #
+#                 Fixed Apache base homeDir creation                            #
+#                 Fixed erroneous backslashes in vhost block                    #
+#                 Fixed password-hashing for new user creation                  #
 #                                                                               #
 #   v1.01.002   : 09 Jul 2020                                                   #
 #                 Added PHP-MySQL extension                                     #
