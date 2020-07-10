@@ -16,7 +16,8 @@
 #                 output atm                                                    #
 #                 Fixed base homeDir creation                                   #
 #                 PHP version update to 7.4                                     #
-#                 Fixed erroneous backslahes                                    #
+#                 Fixed erroneous backslashes                                   #
+#                 Password-hashing for new user creation                        #
 #                                                                               #
 #   v1.01.002   : 09 Jul 2020                                                   #
 #                 Added PHP-MySQL extension                                     #
@@ -47,6 +48,8 @@ fi
 # ============================================================================= #
 MYSQLROOTPWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 WEBUSERPWD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+SALT=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
+WEBUSERPWDHASH=$(openssl passwd -6 -salt ${SALT} ${WEBUSERPWD})
 IPADDRESS=$(ip addr show eth0 | grep -oE 'inet [0-9.]+' | cut -d ' ' -f 2)
 
 
@@ -78,7 +81,7 @@ apt-get -y --with-new-pkgs upgrade 2>&1
 apt-get -y install apache2 2>&1
 apt-get -y install php7.4 php7.4-cli php7.4-gd php7.4-imap php7.4-mbstring php7.4-mysql php7.4-xml php-pear php-xdebug 2>&1
 apt-get install -y mariadb-server mariadb-client 2>&1
-apt-get install -y ffmpeg zip unzip jpegoptim optipng 2>&1
+apt-get install -y ffmpeg zip unzip jpegoptim optipng mcrypt 2>&1
 curl --silent -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl 2>&1
 chmod a+rx /usr/local/bin/youtube-dl
 
@@ -86,7 +89,7 @@ chmod a+rx /usr/local/bin/youtube-dl
 # Add a new SFTP user to upload files to the sites                              #
 # ============================================================================= #
 addgroup sftpusers
-useradd -g sftpusers -s /sbin/nologin -d /var/www/sites -p ${WEBUSERPWD} webuser
+useradd -g sftpusers -s /sbin/nologin -d /var/www/sites -p ${WEBUSERPWDHASH} webuser
 usermod -aG sudo webuser
 chown root: /var/www
 mkdir -p /var/www/sites
