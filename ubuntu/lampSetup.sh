@@ -79,6 +79,7 @@ apt-get -y --with-new-pkgs upgrade 2>&1
 # ============================================================================= #
 apt-get -y install apache2 2>&1
 apt-get -y install php7.4 php7.4-cli php7.4-gd php7.4-imap php7.4-mbstring php7.4-mysql php7.4-xml php-pear php-xdebug 2>&1
+phpenmod pdo_mysql 2>&1
 apt-get install -y mariadb-server mariadb-client 2>&1
 apt-get install -y ffmpeg zip unzip jpegoptim optipng mcrypt 2>&1
 curl --silent -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl 2>&1
