@@ -115,6 +115,7 @@ systemctl restart sshd
 a2enmod vhost_alias
 sed -i 's/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=webuser/' /etc/apache2/envvars
 sed -i 's/export APACHE_RUN_GROUP=www-data/export APACHE_RUN_GROUP=sftpusers/' /etc/apache2/envvars
+sed -i 's/#Mutex file:\${APACHE_LOCK_DIR} default/Mutex file:\${APACHE_LOCK_DIR} default\nMutex flock/' /etc/apache2/apache2.conf
 
 cat << _EOF_ > /etc/apache2/sites-available/000-default.conf
 <VirtualHost *:80>
